@@ -30,6 +30,7 @@
 #include "ofConstants.h"
 #include "ofTypes.h"
 #include <termios.h>
+#include <iostream>
 
 class ofxSerial
 {
@@ -59,7 +60,9 @@ public:
     
     bool			connected();
     bool			initialised();    
+        
     
+
 private:
     void			*self;
     bool			_initialised;

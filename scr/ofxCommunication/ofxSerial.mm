@@ -25,6 +25,7 @@
 #import "redparkSerialListener.h"
 #import "ofxSerial.h"
 
+
 /***************** redparkSerialListerner implitation ******************/
 
 @implementation redparkSerialListener
@@ -39,6 +40,7 @@
     [rscMgr setDelegate:self];
     return self;
 }
+
 
 #pragma mark - RscMgrDelegate methods
 - (void) cableConnected:(NSString *)protocol
@@ -70,20 +72,23 @@
 
 /*********************** ofxSerial implitation *************************/
 
-ofxSerial::ofxSerial(void) : _initialised(false)
-{
+ofxSerial::ofxSerial(void) : _initialised(false){
+    
     self = [[redparkSerialListener alloc] init];
+    
 }
 
-ofxSerial::~ofxSerial(void)
-{
+
+ofxSerial::~ofxSerial(void){
+    
     close();
 }
 
-void ofxSerial::enumerateDevices()
-{
-    ;// do nothing
+
+void ofxSerial::enumerateDevices(){
+    // do nothing
 }
+
 
 void ofxSerial::close(){
 	
@@ -91,31 +96,34 @@ void ofxSerial::close(){
 	[(id)self dealloc];
 }
 
-bool ofxSerial::setup(int baud)
-{
+
+bool ofxSerial::setup(int baud){
+    
     [[(id)self rscMgr] setBaud:baud];
     _initialised = true;
     
-    if([(id)self cable_connected])
-    {
+    if([(id)self cable_connected]){
+        
         [[(id)self rscMgr] open];
     }
-    
     return true;
 }
 
-int ofxSerial::readBytes(unsigned char *buffer, int length)
-{
+
+int ofxSerial::readBytes(unsigned char *buffer, int length){
+    
     return [[(id)self rscMgr] read:buffer Length:length];
 }
 
-int ofxSerial::writeBytes(unsigned char *buffer, int length)
-{
+
+int ofxSerial::writeBytes(unsigned char *buffer, int length){
+    
     return [[(id)self rscMgr] write:buffer Length:length];
 }
 
-int ofxSerial::readByte()
-{
+
+int ofxSerial::readByte(){
+    
 	if ([[(id)self rscMgr] getReadBytesAvailable] < 0 || _initialised == false){
 		return -1;
 	}else{
@@ -125,8 +133,9 @@ int ofxSerial::readByte()
 	}
 }
 
-bool ofxSerial::writeByte(unsigned char singleByte)
-{
+
+bool ofxSerial::writeByte(unsigned char singleByte){
+    
     if (_initialised == false) {
 		return false;
 	}else{
@@ -137,17 +146,19 @@ bool ofxSerial::writeByte(unsigned char singleByte)
 	}
 }
 
-int ofxSerial::available()
-{
+
+int ofxSerial::available(){
+    
     return [[(id)self rscMgr] getReadBytesAvailable];
 }
 
-void ofxSerial::flush(bool flushIn, bool flushOut)
-{
+
+void ofxSerial::flush(bool flushIn, bool flushOut){
+    
     serialPortControl* ctrl;
     ctrl->rxFlush = (flushIn ? 1 : 0);
     ctrl->txFlush = (flushOut ? 1 : 0);
-    [[(id)self rscMgr] setPortControl:ctrl RequestStatus:FALSE];
+    [[(id)self rscMgr] setPortControl:ctrl RequestStatus:FALSE];//
 }
 
 
@@ -156,14 +167,17 @@ void ofxSerial::drain(){
 	;// do nothing
 }
 
-bool ofxSerial::connected()
-{
+
+bool ofxSerial::connected(){
+    
     return [(id)self cable_connected];
 }
 
-bool ofxSerial::initialised()
-{
+
+bool ofxSerial::initialised(){
+    
     return _initialised;
 }
+
 
 @end
